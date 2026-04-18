@@ -44,18 +44,43 @@ const loadallCards=()=>{
     .then((res)=>res.json())
     .then((json)=>displayMainBars(json.data))
 };
-// 
 
+
+const loadModal=(id)=>{
+    const url=`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
+    fetch(url)
+    .then((promise)=>promise.json())
+    .then((collect)=>displayModal(collect.data))
+}
+
+const displayModal=(inf)=>{
+    console.log(inf);
+const findModalSection=document.getElementById("show-modal");
+findModalSection.innerHTML=`
+    <h3 class="text-lg font-bold">${inf.title}</h3>
+    <div class="flex gap-2  items-center justify-around my-3.5"><button class="bg-green-500 p-2 border-green-500 rounded-2xl  text-white">${inf.status}</button><img class="h-min" src="./assets/Ellipse 5.png" alt=""> <p>Opened by ${inf.assignee}</p><img class="h-min" src="./assets/Ellipse 5.png" alt=""> <p>${inf.updatedAt}</p></div>
+     <div class="flex flex-wrap gap-2 my-4">${
+    inf.labels.map(label=>
+   `<p class="bg-red-300 p-2.5  rounded-2xl">${label.toUpperCase()}</p>`
+    ).join("")
+  }</div>
+    <p class="py-4">${inf.description}</p>
+    <div class="bg-gray-100 py-3.5 px-6 rounded-3xl flex gap-32 space-y-4"><div class="space-y-2.5"><p class="text-[#64748B]">Assignee:</p>
+    <h1 class="text-[20px] font-text-[#64748B]font-bold">${inf.assignee}</h1> 
+   </div><div class="space-y-2.5"> <p class="">Priority:</p><p class="bg-[#EF4444] rounded-3xl px-4.5 py-1.5 text-center">${inf.priority}</p></div></div>
+    `
+document.getElementById("my_modal_5").showModal();
+}
 const displayMainBars=(data)=>{
  const mainbarsUpload=document.getElementById("all-container");
- console.log(mainbarsUpload);
+//  console.log(mainbarsUpload);
 mainbarsUpload.innerHTML="";
-console.log(data);
+// console.log(data);
 
     const findButtons=document.getElementById("open-close-btn");
        const createButtoncontainer=document.createElement("div");
        createButtoncontainer.innerHTML=`
-          <button onclick="allButton(this)"  id="all-btn" class="btn btn-outline btn-primary ">All</button>
+          <button onclick="allButton(this)"  id="all-btn" class="btn btn-outline btn-primary btn-active">All</button>
     <button onclick="openButton(this)" id="open-btn" class="btn btn-outline btn-primary ml-2">Open</button> <button onclick="closeButton(this)"  id="close-btn" class="btn btn-outline btn-primary ml-2">Closed</button>
        `
    findButtons.append(createButtoncontainer)
@@ -64,18 +89,23 @@ data.forEach(element => {
     // const findID=element.id;
     // openCards(findID);
 
-    console.log(element);
+    // console.log(element);
     const findUpperCase=element.priority.toUpperCase();
-    console.log(findUpperCase);
+    // console.log(findUpperCase);
     const myDate=element.createdAt;
     const mynewDate=new Date(myDate);
+
     const lastDate=mynewDate.toDateString();
     createElement.innerHTML=`
-    <div class="bg-white  py-7 rounded-2xl p-2.5 shadow-gray-400 space-y-5 px-3.5">
-  <div class="flex justify-between"><img class="h-min" src="./assets/Open-Status.png" alt=""><button id="high" class="btn bg-[#ffd2d2]  text-[#d71313] text-[15px] rounded-full p-5">${findUpperCase}</button></div>
+   <div onclick="loadModal(${element.id})"  class=" bg-white  py-7 rounded-2xl p-2.5 shadow-gray-400 space-y-5 px-3.5 ${element.status==="open"? "border-t-4 border-[#00A96E]" : "border-t-4 border-[#A855F7]"}">
+  <div class="flex justify-between"><div>${element.status==="open"? `<img class="h-min" src="./assets/Open-Status.png" alt="">`: `<img src="./assets/Closed- Status .png" alt="">`}</div><button id="high" class="btn bg-[#ffd2d2]  text-[#d71313] text-[15px] rounded-full p-5">${findUpperCase}</button></div>
   <h1 class="text-[20px] font-bold">${element.title} </h1>
   <p class="text-[#64748B]">${element.description}</p>
-  <div class="flex flex-wrap gap-2"><button id="bug-btn" class="btn bg-[#FECACA]  text-[#EF4444] text-[15px] rounded-full border border-[#9c5050] p-4 gap-0.5:"><img src="./assets/BugDroid.png" alt=""> Bug</button>  <button id="bug-btn" class="btn bg-[#FDE68A]  text-[#D97706] text-[15px] rounded-full border border-[#FDE68A] p-2"><img src="./assets/BugDroid.png" alt="">HELP WANTED</button> </div>
+  <div class="flex flex-wrap gap-2">${
+    element.labels.map(label=>
+   `<p class="bg-amber-400 p-2.5  rounded-2xl">${label.toUpperCase()}</p>`
+    ).join("")
+  }</div>
   <hr class=" border-t-3 border-gray-300">
  <div class="flex justify-between ">
  <div> <p class="text-[#64748B]">#1 by ${element.author}</p>
@@ -107,8 +137,31 @@ data.forEach(element => {
         const creatClosedDiv=document.createElement("div");
         creatClosedDiv.innerHTML=takeClosedInnerHTML;
         findClosedSection.append(creatClosedDiv);
-    }
 
+    }
  });
+
+
+document.getElementById("all-btn").addEventListener("click",()=>{
+    const totalALl=data.length;
+console.log(totalALl);
+    const findNumber=document.getElementById("number");
+    findNumber.innerText=totalALl;
+})
+document.getElementById("open-btn").addEventListener("click",()=>{
+    const totalOpen=data.filter(item=>item.status==="open").length;
+console.log(totalOpen);
+ const findNumber=document.getElementById("number");
+    findNumber.innerText=totalOpen;
+})
+document.getElementById("close-btn").addEventListener("click",()=>{   
+const totalClosed=data.filter(data=>data.status==="closed").length;
+console.log(totalClosed);
+ const findNumber=document.getElementById("number");
+    findNumber.innerText=totalClosed;
+})
 };
-loadallCards()
+
+   
+      
+loadallCards();
