@@ -71,19 +71,25 @@ findModalSection.innerHTML=`
     `
 document.getElementById("my_modal_5").showModal();
 }
+
+
 const displayMainBars=(data)=>{
  const mainbarsUpload=document.getElementById("all-container");
 //  console.log(mainbarsUpload);
 mainbarsUpload.innerHTML="";
 // console.log(data);
-
+// document.getElementById("open-container").innerHTML = "";
+// document.getElementById("closed-container").innerHTML = "";
     const findButtons=document.getElementById("open-close-btn");
        const createButtoncontainer=document.createElement("div");
-       createButtoncontainer.innerHTML=`
+       
+ createButtoncontainer.innerHTML=`
           <button onclick="allButton(this)"  id="all-btn" class="btn btn-outline btn-primary btn-active">All</button>
     <button onclick="openButton(this)" id="open-btn" class="btn btn-outline btn-primary ml-2">Open</button> <button onclick="closeButton(this)"  id="close-btn" class="btn btn-outline btn-primary ml-2">Closed</button>
        `
-   findButtons.append(createButtoncontainer)
+      findButtons.innerHTML=" "
+      
+   findButtons.append(createButtoncontainer);
 data.forEach(element => {
     const createElement=document.createElement("div");
     // const findID=element.id;
@@ -160,8 +166,30 @@ console.log(totalClosed);
  const findNumber=document.getElementById("number");
     findNumber.innerText=totalClosed;
 })
-};
-
-   
-      
+};     
 loadallCards();
+
+  const findSearchSOurce=(searchText)=>{
+        const url=`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`;
+        fetch(url)
+        .then((res)=>res.json())
+        .then((data)=>displaySearchWord(data))
+    }
+     const displaySearchWord=(word)=>{
+console.log(word);
+displayMainBars(word.data);
+    }
+    sum=0;
+document.getElementById("search-btn").addEventListener("click",(event)=>{
+    const findInput=document.getElementById("search-input");
+    const inputValue=findInput.value;
+    console.log(inputValue);
+    sum++;
+    console.log(sum);
+    if(sum>=2){
+        
+    }
+  
+   
+    findSearchSOurce(inputValue);
+})
