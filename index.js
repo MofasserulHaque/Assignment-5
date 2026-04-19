@@ -37,8 +37,19 @@ const allButton=(btn)=>{
     clickBTN.classList.add("btn-active");
     // setActiveButton();
     }
+ 
+function activeSpinner(status){
+    const findSpinner=document.getElementById("spinner")
+    if(status===true){
+        findSpinner.classList.remove("hidden")
+    }
+    else if(status===false){
+        findSpinner.classList.add("hidden")
+    }
+}
 
 const loadallCards=()=>{
+    activeSpinner(true);
     const url="https://phi-lab-server.vercel.app/api/v1/lab/issues";
     fetch(url)
     .then((res)=>res.json())
@@ -166,10 +177,12 @@ console.log(totalClosed);
  const findNumber=document.getElementById("number");
     findNumber.innerText=totalClosed;
 })
+activeSpinner(false);
 };     
 loadallCards();
 
   const findSearchSOurce=(searchText)=>{
+    activeSpinner(true);
         const url=`https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`;
         fetch(url)
         .then((res)=>res.json())
@@ -185,4 +198,5 @@ document.getElementById("search-btn").addEventListener("click",()=>{
     const inputValue=findInput.value;
     console.log(inputValue); 
     findSearchSOurce(inputValue);
+   
 })
