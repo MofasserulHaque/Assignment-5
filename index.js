@@ -179,17 +179,10 @@ loadallCards();
 console.log(word);
 displayMainBars(word.data);
     }
-    sum=0;
-document.getElementById("search-btn").addEventListener("click",(event)=>{
+
+document.getElementById("search-btn").addEventListener("click",()=>{
     const findInput=document.getElementById("search-input");
     const inputValue=findInput.value;
-    console.log(inputValue);
-    sum++;
-    console.log(sum);
-    if(sum>=2){
-        
-    }
-  
-   
+    console.log(inputValue); 
     findSearchSOurce(inputValue);
 })

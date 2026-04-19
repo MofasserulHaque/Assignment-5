@@ -11,7 +11,8 @@
 </head>
 <body class="bg-gray-100 min-h-screen space-y-8">
    
-<nav class="flex justify-between items-center mb-10 px-10 bg-white gap-6 py-3">
+<section id="all-body" class="hidden">
+  <nav class="flex justify-between items-center mb-10 px-10 bg-white gap-6 py-3">
     <div class="flex flex-1 items-center gap-4"><img class="w-[40px] h-[40px] object-cover" src="./assets/github-logo.png" alt=""> <p class="text-2xl font-bold m-[-7px]">GitHub Issues Tracker</p></div>
     <div class="flex gap-2.5 items-center">
        <label class="input">
@@ -30,6 +31,7 @@
   <input id="search-input" type="search" required placeholder="Search Issues" />
 </label>
         <button id="search-btn" class="btn btn-primary">Search</button>
+        <button id="logout-btn" class="flex items-center gap-2 btn btn-primary"><p>Logout</p> <i class="fa-solid fa-arrow-right-from-bracket"></i></button>
     </div>
 </nav>
 <section class="bg-white py-5 px-7 flex gap-3">
@@ -70,7 +72,8 @@
 </dialog>
 
 
-<section class=" min-h-screen flex justify-center items-center hidden">
+</section>
+<section id="login-btn" class=" min-h-screen flex justify-center items-center">
    <section class="w-[500px] bg-white grid justify-center items-center mx-auto rounded-2xl py-5">
     <div>
        <p class="text-center flex justify-center "> <img  src="./assets/github-logo.png" alt=""></p>
@@ -92,10 +95,10 @@
       <circle cx="12" cy="7" r="4"></circle>
     </g>
   </svg>
-  <input
+  <input id="user-name-input"
     type="text"
     required
-    placeholder="Username"
+    placeholder="Username 'admin'"
     pattern="[A-Za-z][A-Za-z0-9\-]*"
     minlength="3"
     maxlength="30"
@@ -122,21 +125,13 @@
       <circle cx="16.5" cy="7.5" r=".5" fill="currentColor"></circle>
     </g>
   </svg>
-  <input
+  <input id="password-input"
     type="password"
     required
     placeholder="Enter Password'admin123'"
-    minlength="8"
-    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
-    title="Must be more than 8 characters, including number, lowercase letter, uppercase letter"
   />
 </label>
-<p class="validator-hint hidden">
-  Must be more than 8 characters, including
-  <br />At least one number <br />At least one lowercase letter <br />At least one uppercase letter
-</p>
-       <br>
-        <button class="btn btn-primary btn-block my-5"> Sign In</button>
+ <button id="sign-in-btn" class="btn btn-primary btn-block my-5"> Sign In</button>
     </div>
  </section>
 </section>
