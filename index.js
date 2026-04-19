@@ -58,6 +58,7 @@ const loadallCards=()=>{
 
 
 const loadModal=(id)=>{
+    activeSpinner(true);
     const url=`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
     fetch(url)
     .then((promise)=>promise.json())
@@ -65,6 +66,7 @@ const loadModal=(id)=>{
 }
 
 const displayModal=(inf)=>{
+    activeSpinner(true);
     console.log(inf);
 const findModalSection=document.getElementById("show-modal");
 findModalSection.innerHTML=`
@@ -85,12 +87,13 @@ document.getElementById("my_modal_5").showModal();
 
 
 const displayMainBars=(data)=>{
+    activeSpinner(true)
  const mainbarsUpload=document.getElementById("all-container");
 //  console.log(mainbarsUpload);
 mainbarsUpload.innerHTML="";
 // console.log(data);
-// document.getElementById("open-container").innerHTML = "";
-// document.getElementById("closed-container").innerHTML = "";
+document.getElementById("open-container").innerHTML = "";
+document.getElementById("closed-container").innerHTML = "";
     const findButtons=document.getElementById("open-close-btn");
        const createButtoncontainer=document.createElement("div");
        
